@@ -1,0 +1,8 @@
+
+
+`event.spor.istanbul/eventresults.aspx` URL'si için bir Web Kazıma Projesi
+
+== Teknik Açıklamalar
+
+link:src/docs/asciidoc/documentation-tr-eventsporistanbulscraper.adoc[Türkçe Teknik Kılavuz].
+
