@@ -4,11 +4,15 @@ import com.turkerozturk.EventScraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.sql.*;
+import java.time.Duration;
 import java.util.*;
 
 import static com.turkerozturk.EventScraper.DB_URL;
@@ -33,7 +37,6 @@ public class MissingDataCompleter {
         ResultSet rs1 = stmt1.executeQuery();
 
         while (rs1.next()) {
-            //  idsInCategoryTable.add(rs1.getString("ageAndGender"));
             Ids ids = new Ids();
             ids.setId(rs1.getInt("id"));
             ids.setCategoryId(rs1.getString("categoryId"));
@@ -89,10 +92,28 @@ public class MissingDataCompleter {
         driver.get("https://event.spor.istanbul/eventresults.aspx");
         //end::selenium[]
 
-        WebElement optionOfEvent = driver.findElement(By.xpath("//option[@value='" + eventId + "']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement optionOfEvent = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[@value='" + eventId + "']")));
         optionOfEvent.click();
-        WebElement optionOfCategory = driver.findElement(By.xpath("//option[@value='" + categoryId + "']"));
+
+        WebElement optionOfCategory = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[@value='" + categoryId + "']")));
         optionOfCategory.click();
+
+        // Sayfanin en altina kadar scroll et
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+        // Sayfanin tamamen yuklendiginden emin olmak icin birkac saniye bekliyoruz
+        // wait.until(ExpectedConditions.presenceOfElementLocated(By.id("TODO BURAYA mumkunse sayfanin tamamen yuklendiginden emin olunabilecek bir ELEMENT IDsi gelecek")));
+        // VEYA
+        try {
+            Thread.sleep(3000); // 3 saniye bekler
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        // TODO bir baska yontem, varsa sayfayi sira noya gore yuksekten alcaga siralamak, boylece en yuksek satir noyu elde etmek.
+
 
         String pageSource = driver.getPageSource();
 

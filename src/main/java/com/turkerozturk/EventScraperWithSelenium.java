@@ -4,15 +4,19 @@ import com.turkerozturk.Completer.MissingDataCompleter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +113,10 @@ public class EventScraperWithSelenium {
         for (String keyOfEvent : eventsMap.keySet()) {
             Event event = new Event(keyOfEvent, eventsMap.get(keyOfEvent));
             System.out.println(event.getEventName() + ",\t" + event.getEventId());
-            WebElement optionOfEvent = driver.findElement(By.xpath("//option[@value='" + event.getEventId() + "']"));
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            WebElement optionOfEvent = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[@value='" + event.getEventId() + "']")));
             optionOfEvent.click();
 
             final Map<String, String> categoriesMap = getStringStringMap(driver, ddlCategory);
@@ -130,12 +137,27 @@ public class EventScraperWithSelenium {
             tableId++;
             Category category = new Category(tableId, keyOfCategory, nameOfCategory, event.getEventId());
             System.out.println(nameOfCategory + ",\t" + category.getCategoryId());
-            WebElement optionOfCategory = driver.findElement(By.xpath("//option[@value='" + category.getCategoryId() + "']"));
-
             CategoriesTable categoriesTable = new CategoriesTable();
             categoriesTable.addCategoryToTable(category);
 
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            WebElement optionOfCategory = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[@value='" + category.getCategoryId() + "']")));
             optionOfCategory.click();
+
+            // Sayfanin en altina kadar scroll et
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+            // Sayfanin tamamen yuklendiginden emin olmak icin birkac saniye bekliyoruz
+            // wait.until(ExpectedConditions.presenceOfElementLocated(By.id("TODO BURAYA mumkunse sayfanin tamamen yuklendiginden emin olunabilecek bir ELEMENT IDsi gelecek")));
+            // VEYA
+            try {
+                Thread.sleep(3000); // 3 saniye bekler
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            // TODO bir baska yontem, varsa sayfayi sira noya gore yuksekten alcaga siralamak, boylece en yuksek satir noyu elde etmek.
 
             String pageSource = driver.getPageSource();
 
