@@ -1,8 +1,20 @@
 
+== eventsporistanbulscraper
 
-`event.spor.istanbul/eventresults.aspx` URL'si için bir Web Kazıma Projesi
+=== Tanım
 
-== Teknik Açıklamalar
+`https://event.spor.istanbul/eventresults.aspx` URL'si için bir Web Kazıma Projesi
 
-link:src/docs/asciidoc/documentation-tr-eventsporistanbulscraper.adoc[Türkçe Teknik Kılavuz].
+=== Dökümantasyon
 
+link:src/docs/asciidoc/documentation-tr-eventsporistanbulscraper.pdf[Türkçe Teknik Kılavuz]
+
+=== Ekran Görüntüleri
+
+image::src/docs/asciidoc/images/image00.jpg[demo screenshot]
+
+=== Deneme Geçmişi
+
+----
+2024-10-10
+----
