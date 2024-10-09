@@ -9,14 +9,15 @@ import java.sql.*;
 public class EventScraper {
 
     //tag::sqlite[]
-    public static final String DB_URL = "jdbc:sqlite:runningResults.sqlite";
+    public static final String DB_NAME = "runningResults.sqlite";
+    public static final String DB_URL = "jdbc:sqlite:" + DB_NAME;
     //end::sqlite[]
 
     public void scrapeDataAndStoreInSQLite(int id, Document doc) {
         try {
 
             Elements rows = doc.select("table.TableResult tr.TableResultRow");
-            System.out.println(rows.size());
+            System.out.printf("ID no %s kategorisinde %s adet kosu datasi var.%n", id, rows.size());
 
             createTableIfNotExists();
 

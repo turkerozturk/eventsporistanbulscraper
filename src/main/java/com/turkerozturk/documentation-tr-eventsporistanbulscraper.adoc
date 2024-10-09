@@ -33,27 +33,68 @@ Sistemden maven kurulu olmasına gerek yoktur çünkü mvnw dosyası o işi hall
 $ mvnw clean install
 -----
 
-`target` klasörü oluşur. 
+`target` klasörü oluşur.
+
+Klasörün içindeki JAR dosyası dışında kalan dosyalar gereksizdir ve silinebilir.
 
 [NOTE]
 Linux üzerinde çalıştırılacaksa `mvnw` dosyasına executable yetkisi verilmeli ve komutun başında `./` olmalıdır.
 
 == Çalıştırma
 
-Klasörün içindeki JAR dosyası dışında kalan dosyalar gereksizdir ve silinebilir.
-Aşağıdaki komut çalıştırıldığında uygulama çalışacak ve birkaç dakika içinde veritabanını internetteki verilerle doldurmuş olacak.
-İşlemler yapılırken konsola çıktı verdiğinden, hangi koşu verisini aldığını görmek mümkün.
-Veritabanı, JAR dosyasının çalıştırıldığı klasörde oluşur. 
-İşlem sürecinde geçici dosyalar oluşturabilir, işlem bittiğinde geçici dosyalar kaybolur.
+=== config.txt Dosyası Oluşturulması
 
+
+`config.txt` dosyasının uygulama ile aynı klasörde oluşturulması ve içine `chromedriver.exe` dosyasının tam yolunun yazılması gerekmektedir.
+
+Dosya oluşturulmadan program çalıştırıldığında kullanıcıya bilgilendirme yapılır:
+
+-----
+Hata: 'config.txt' dosyası bulunamadi.
+Lutfen 'config.txt' adinda bir dosya olusturun ve icine ChromeDriver yolunu yazin.
+Ornek:
+C:\PROGRAMMING\SELENIUM\CHROMEDRIVERS\129\chromedriver-win32\chromedriver.exe
+-----
+
+
+=== İlk Çalıştırma
+
+
+Aşağıdaki parametresiz komut hem tüm koşu verilerini indirip oluşturduğu veritabanına kaydeder, hem de hemen ardından tamamlayıcı bir metodu daha çalıştırarak, varsa indirilememiş verileri indirip aynı veritabanındaki boşlukları tamamlar.
 
 [source, console]
 -----
 $ java -jar eventsporistanbulscraper-1.0-SNAPSHOT.jar
 -----
 
+Halen inmemiş veri olduğu gözlemleniyorsa, komuta parametre vererek sadece tamamlayıcı metodu tekrar çalıştırmak gerekir.
+
+=== Veritabanı Varken Sonraki Çalıştırmalar
+
+Veritabanı varsa, sadece varolan veritabanında eksik olan koşu verileri varsa onları tamamlar. İlk çalıştırmada verilen komutun aynısıdır.
+
+[WARNING]
+=====
+Yeni kosu etkinliklerini indirmez. Daha önce veritabanında kategori tablosunda ID numarası olup da results tablosında hiç kayıt yok ise tekrar indirmeye çalışır. Kayıt var ise ve eksikse onu da indirmez. Hiç kayıt olmaması gerekir.
+=====
+
+Çıktısı aşağıdaki gibi olur:
+
+-----
+Yeni kosularla birlikte tamamen en bastan runningResults.sqlite veritabani olusturabilmek icin mevcut veritabani olmadan programi calistirmaniz gerekir.
+Su anda mevcut runningResults.sqlite veritabaninda eksik kosu verisi varsa tamamlanacak, fakat yeni kosular varsa indirilmeyecek.
+ID no 12 kategorisi olmasina ragmen kosu datasi bulunamadi.
+ID no 12 kategorisinde 0 adet kosu datasi var.
+ID no 12 parsellendi. (categoryId:a9c867bc-ca20-4264-957f-15578923d40b , eventId: f0217f9c-7f73-4f81-86cb-8021fe40c9b0)
+-----
+
+Görüleceği üzere, örnekte, websayfasının kendisi de boş gelmiş yani orijinal kaynakta da veri yok, o zaman 0 kayıt olduğu için veritabanında results tablosuna yazacağı birşey olmayacağından, program her çalıştırıldığında konsolda aynı satırlar hep görünecektir. Eğer en az bir kayıt olsaydı veritabanına yazılacak ve bir daha konsolda o koşuya ait bilgi satırları görünmeyecekti.
 
 
+* Uygulama çalıştırıldığında birkaç dakika içinde veritabanını internetteki verilerle doldurmuş olur.
+* İşlemler yapılırken konsola çıktı verdiğinden, hangi koşu verisini aldığını görmek mümkündür.
+* Veritabanı, JAR dosyasının çalıştırıldığı klasörde oluşur.
+* İşlem sürecinde geçici dosyalar oluşturabilir, işlem bittiğinde geçici dosyalar kaybolur.
 
 == Bağımlılıklar
 
@@ -72,6 +113,26 @@ include::{relfileprefix}pom.xml[tag=jsoup,indent=0]
 [source,java]
 .EventScraperWithSelenium.java
 include::EventScraperWithSelenium.java[tag=jsoup,indent=0]
+
+=== SLF4J NOP Provider Kütüphanesi
+
+[source,xml]
+.pom.xml
+include::{relfileprefix}pom.xml[tag=slf4j,indent=0]
+
+NOP için bağlayıcı/sağlayıcı, tüm günlükleme mesajlarını sessizce atan bir uygulama.
+
+Konsolda aşağıdaki çıktının görünmemesi için eklendi sadece.
+-----
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+-----
+
+[TIP]
+=====
+Bilgisayar biliminde, NOP, no-op veya NOOP (telaffuzu "no op"; no operation'ın kısaltması), hiçbir şey yapmayan bir makine dili talimatı ve onun montaj dili anımsatıcısı, programlama dili ifadesi veya bilgisayar protokolü komutudur.
+=====
 
 === Selenium Kütüphanesi
 

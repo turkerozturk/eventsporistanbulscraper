@@ -44,7 +44,14 @@
     </dependency>
     <!-- end::jsoup[] -->
 
- 
+    <!-- tag::slf4j[] -->
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-nop -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-nop</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+    <!-- end::slf4j[] -->
 
   </dependencies>
 
