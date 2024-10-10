@@ -5,16 +5,66 @@
 
 `https://event.spor.istanbul/eventresults.aspx` URL'si için bir Web Kazıma Projesi
 
+:!example-caption:
+.Ekran Görüntüsü
+====
+image::src/docs/asciidoc/images/image00.jpg[demo screenshot]
+====
+
 === Dökümantasyon
 
 link:src/docs/asciidoc/documentation-tr-eventsporistanbulscraper.pdf[Türkçe Teknik Kılavuz]
 
-=== Ekran Görüntüleri
+=== Lisans
 
-image::src/docs/asciidoc/images/image00.jpg[demo screenshot]
+link:LICENSE.TXT[Creative Commons Attribution-NoDerivatives 4.0 International Public
+License]
 
 === Deneme Geçmişi
 
 ----
-2024-10-10
+2024-10-10 07:31 tarihinde başlatılan işlem sonucunda oluşan veritabanı:
+events tablosu 38 kayıt içermektedir.
+categories tablosu 82 kayıt içermektedir.
+results tablosu 105312 kayıt içermektedir.
+
+Etkinlik Listesi:
+İstanbulu Koşuyorum Üsküdar Etabı 2021
+İstanbulu Koşuyorum Esenyurt Etabı 2021
+İstanbulu Koşuyorum Caddebostan Koşusu 2019
+İstanbulu Koşuyorum Caddebostan Gazi Koşusu 2020
+İstanbulu Koşuyorum Bakırköy Etabı 2020
+İstanbulu Koşuyorum Bakırköy Etabı 2019
+İstanbulu Koşuyorum Avrupa Etabı Yenikapı Colour Run 2024
+İstanbulu Koşuyorum Avrupa Etabı 2023
+İstanbulu Koşuyorum Asya Etabı 2024
+İstanbulu Koşuyorum Asya Etabı 2023
+İstanbul'u Koşuyorum Caddebostan Colour Run
+İstanbul'u Koşuyorum Bakırköy Etabı 2021
+İstanbul'u Koşuyorum Avrupa Etabı (Yenikapı)
+İstanbul'u Koşuyorum Asya Etabı (Üsküdar)
+İlçeler Yarışıyor 2021
+Zafer Bayramı Sanal Koşusu
+Yılın Son Sanal Koşusu
+Vodafone İstanbul Yarı Maratonu 2020
+Vodafone İstanbul Sanal Yarı Maratonu 2020
+Türkiye İş Bankası 45. İstanbul Maratonu
+Türkiye İş Bankası 19. İstanbul Yarı Maratonu
+Tarihi Yarımada Koşusu
+Sonbahar Sanal Koşusu
+N Kolay İstanbul Yarı Maratonu 2022
+N Kolay İstanbul Yarı Maratonu 2021
+N Kolay İstanbul Sanal Yarı Maratonu 2021
+N Kolay İstanbul Sanal Maratonu 2021
+N Kolay İstanbul Sanal Maratonu 2020
+N Kolay İstanbul Maratonu Sanal Koşu + 2021
+N Kolay 44. İstanbul Maratonu 2022
+N Kolay 43. İstanbul Maratonu 2021
+N Kolay 42. İstanbul Maratonu 2020
+N Kolay 18. İstanbul Yarı Maratonu
+Kent Ormanı Maraton Şampiyonlar Finali
+Kadınlar Sanal Koşusu 2021
+Kadınlar Koşusu 2021
+Kadınlar Koşusu 2020
+Bebek Etabı İstanbulu Koşuyorum
 ----
